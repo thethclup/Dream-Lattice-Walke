@@ -280,7 +280,7 @@ class LatticeEngine {
        this.ctx.beginPath();
        this.ctx.moveTo(n1.pos.x, n1.pos.y);
        this.ctx.lineTo(n2.pos.x, n2.pos.y);
-       this.ctx.strokeStyle = `rgba(165, 180, 252, ${e.active ? 0.6 : 0.2})`;
+       this.ctx.strokeStyle = `rgba(129, 140, 248, ${e.active ? 0.6 : 0.2})`; // indigo-400
        this.ctx.lineWidth = e.active ? 2 : 1;
        this.ctx.stroke();
 
@@ -293,8 +293,8 @@ class LatticeEngine {
        const glow = Math.sin(f.life) * 0.5 + 0.5;
        this.ctx.beginPath();
        this.ctx.arc(f.pos.x, f.pos.y, 3 + glow * 2, 0, Math.PI * 2);
-       this.ctx.fillStyle = `rgba(232, 121, 249, ${glow * 0.8 + 0.2})`; // fuchsia-400
-       this.ctx.shadowColor = 'rgba(232, 121, 249, 0.8)';
+       this.ctx.fillStyle = `rgba(34, 211, 238, ${glow * 0.8 + 0.2})`; // cyan-400
+       this.ctx.shadowColor = 'rgba(34, 211, 238, 0.8)';
        this.ctx.shadowBlur = 10;
        this.ctx.fill();
     });
@@ -310,12 +310,12 @@ class LatticeEngine {
           this.ctx.shadowColor = '#ffffff';
           this.ctx.shadowBlur = 15;
        } else if (n.active) {
-          this.ctx.fillStyle = '#a5b4fc'; // indigo-300
-          this.ctx.shadowColor = '#a5b4fc';
+          this.ctx.fillStyle = '#818cf8'; // indigo-400
+          this.ctx.shadowColor = '#818cf8';
           this.ctx.shadowBlur = 10;
        } else {
-          this.ctx.fillStyle = '#334155'; // slate-700
-          this.ctx.strokeStyle = '#475569';
+          this.ctx.fillStyle = '#1e293b'; // slate-800
+          this.ctx.strokeStyle = '#334155';
           this.ctx.lineWidth = 1;
           this.ctx.stroke();
        }
