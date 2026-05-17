@@ -4,36 +4,56 @@
   "version": "1.0.0",
   "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
   "image": "https://dreamwalke.vercel.app/logo.png",
-  "wallets": {
-    "base": "0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6"
-  },
+  "owner": "0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6",
+  "agentWallet": "0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6",
+  "active": true,
+  "skills": [
+    {
+      "id": "dream-walking",
+      "name": "Dream Walking",
+      "description": "Real-time navigation and puzzle solving inside the dream lattice structure."
+    },
+    {
+      "id": "lucid-navigation",
+      "name": "Lucid Navigation",
+      "description": "Orchestrating connections and uncovering hidden fragments in the subconscious."
+    },
+    {
+      "id": "realm-orchestration",
+      "name": "Dream Realm Orchestration",
+      "description": "Analyze and optimize the stability and resonance score of the entire dream space."
+    }
+  ],
   "services": [
     {
       "name": "A2A",
-      "endpoint": "https://dreamwalke.vercel.app/.well-known/agent-card.json",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "endpoint": "https://dreamwalke.vercel.app/.well-known/agent-card.json"
     },
     {
       "name": "MCP",
-      "endpoint": "https://dreamwalke.vercel.app/api/mcp",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "endpoint": "https://dreamwalke.vercel.app/api/mcp"
     },
     {
       "name": "API",
-      "endpoint": "https://dreamwalke.vercel.app/api/agent",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "endpoint": "https://dreamwalke.vercel.app/api/agent"
     }
   ],
   "capabilities": [
     "dream-walking",
     "lucid-navigation",
     "subconscious-exploration",
-    "dream-realm-orchestration",
-    "narrative-control",
-    "consciousness-shifting",
-    "mcp-command-execution"
+    "dream-realm-orchestration"
   ],
   "supportedChains": ["eip155:8453"],
-  "active": true,
-  "status": "online"
+  "x402Support": false,
+  "registrations": [
+    {
+      "agentId": null,
+      "agentRegistry": "eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432"
+    }
+  ],
+  "supportedTrust": ["reputation"]
 }

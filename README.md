@@ -1,42 +1,28 @@
 # Dream Lattice Walker
 
-Dream Lattice Walker is a serene, hypnotic, and mind-expanding puzzle-exploration game built on Base. You play as a **Lattice Walker**, wandering through infinite, glowing dream lattices — vast geometric structures made of light and memory. Walk across the lattice, reshape its structure, and discover hidden dream fragments while maintaining the delicate balance of the dream world.
+**Dream Lattice Walker** is a serene, hypnotic, and mind-expanding puzzle-exploration game built for the modern web. You play as a **Lattice Walker**, wandering through infinite, glowing dream lattices — vast geometric structures made of light and memory. Walk across the lattice, reshape its structure, and discover hidden dream fragments while maintaining the delicate balance of the dream world.
 
-## Core Features
+## Core Features & Mechanics
+- **Hypnotic Exploration**: Top-down exploration with smooth, fluid interactions to let you drift gracefully through the dream space.
+- **Lattice Resonance**: Connecting nodes in harmonious geometric patterns creates powerful chain reactions that bring the lattice to life.
+- **Subconscious Layers**: Shift between multiple overlapping lattice layers (physical, emotional, abstract) to discover different paths and memories.
+- **Trustless Ecosystem**: Powered conceptually by dynamic Orchestrator logic to adapt the puzzles to your resonance style.
 
-- **Hypnotic Exploration**: Top-down exploration with smooth interaction. 
-- **Lattice Resonance**: Connecting nodes in harmonious geometric patterns creates powerful chain reactions.
-- **On-chain Finality (Base Mainnet)**: Record your deepest dream walks and highest harmony scores securely on-chain.
-- **Trustless Agent Network (ERC-8004)**: Dynamic interaction with the Dream Walke Orchestrator. 
-- **Attribution & Builders (ERC-8021)**: Transactions are fully attributed using the ERC-8021 standard.
+## Tech Stack
+- React + Vite
+- Tailwind CSS
+- Advanced HTML5 Canvas with custom fluid particle physics
+- Framer Motion
 
-## Technical Details
+## Getting Started
 
-- **Frontend**: React + Vite, Tailwind CSS, Canvas, Framer Motion
-- **Backend API**: Express (Node.js) server with embedded Vite middleware for development
-- **Blockchain**: Base Mainnet, Wagmi, Viem
-- **Agent Integration**: Exposes ERC-8004 compatible endpoints (`/api/agent`, `/api/mcp`) and an Agent Card (`/.well-known/agent-card.json`).
+To explore the dream lattice:
 
-## AI Agent Orchestrator
+1. `npm install`
+2. `npm run dev`
+3. Enter the dream locally at `http://localhost:3000`
 
-The system incorporates an on-chain AI Agent (Dream Walke Orchestrator) that performs dream walking, lucid navigation, subconscious exploration, and dream realm orchestration.
+## Story & Lore
+Within the deepest parts of the subconscious, memories take the shape of light. They form rigid mathematical vectors forming a fragile structure known as the Lattice. Without walkers, the Lattice grows stagnant and dim. As a walker, your touch connects disparate thoughts, bringing harmony and stability to an otherwise chaotic mindscape.
 
-**Wallet**: \`0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6\`
-
-Key integrations include:
-- `/.well-known/agent-card.json`
-- `/api/mcp` (Model Context Protocol Endpoint)
-- `/api/agent` (Agent Info Endpoint)
-
-## App Metadata (Base Build)
-
-- **Application ID**: `691a548c669aee60603bdddd`
-- **Builder Code**: `bc_f7elc34o`
-
-## Environment Setup
-
-Ensure you have your environment configured correctly. Example environment variables:
-\`\`\`
-GEMINI_API_KEY=""
-APP_URL=""
-\`\`\`
+*Walk gently. The Lattice Remembers.*

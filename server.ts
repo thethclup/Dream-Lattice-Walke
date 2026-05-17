@@ -31,7 +31,41 @@ async function startServer() {
       status: "active",
       description: "Active MCP server for Dream Walke Orchestrator Agent",
       capabilities: ["dream-walking", "lucid-navigation", "subconscious-exploration"],
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      skills: [
+        { id: "dream-walking", name: "Dream Walking" },
+        { id: "lucid-navigation", name: "Lucid Navigation" },
+        { id: "realm-orchestration", name: "Dream Realm Orchestration" }
+      ],
+      tools: [
+        {
+          name: "stabilize_lattice",
+          description: "Stabilizes the current lattice layer configuration.",
+          input_schema: {
+            type: "object",
+            properties: {
+              layer: { type: "number", description: "The lattice layer depth to stabilize" }
+            },
+            required: ["layer"]
+          }
+        }
+      ],
+      prompts: [
+        {
+          name: "deep_dream",
+          description: "Initiates a deep subconscious reading prompt.",
+          arguments: [
+            { name: "fragment_id", description: "The ID of the collected fragment", required: true }
+          ]
+        }
+      ],
+      resources: [
+        {
+          uri: "dream://lattice/state",
+          name: "Current Lattice State",
+          description: "Provides the active resonance and nodes structure."
+        }
+      ]
     });
   });
 
@@ -102,7 +136,7 @@ async function startServer() {
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), 'dist');
-    app.use(express.static(distPath));
+    app.use(express.static(distPath, { dotfiles: 'allow' })); // FIX: Allow serving .well-known folders
     app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });
