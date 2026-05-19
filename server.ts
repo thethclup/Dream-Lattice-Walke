@@ -77,6 +77,27 @@ async function startServer() {
       let result: any = {};
 
       switch (cmd) {
+        case "tools/list":
+          result = {
+            tools: [
+              { name: "get_race_status", description: "Get the current status of the warp race.", inputSchema: { type: "object", properties: {} } },
+              { name: "start_race", description: "Initiate a new warp race on the track.", inputSchema: { type: "object", properties: {} } },
+              { name: "get_leaderboard", description: "Get the current leaderboard of greatest dream walkers and racers.", inputSchema: { type: "object", properties: {} } },
+              { name: "optimize_speed", description: "Optimize speed and resonance for the current lattice configuration.", inputSchema: { type: "object", properties: {} } },
+              { name: "get_track_info", description: "Get information about the current lattice track.", inputSchema: { type: "object", properties: {} } }
+            ]
+          };
+          break;
+
+        case "tools/call":
+          result = {
+            success: true,
+            content: [
+              { type: "text", text: `Tool executed successfully.` }
+            ]
+          };
+          break;
+
         case "status":
         case "ping":
           result = { 
