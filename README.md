@@ -19,6 +19,7 @@ This project hosts the **Dream Walke Orchestrator**, a fully compliant ERC-8004 
 **Agent Details:**
 - **App Name/Agent**: Dream Walke Orchestrator
 - **Registered Base Wallet**: `0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6`
+- **Primary Domain**: `https://dreamwalke.vercel.app`
 - **Capabilities**: `dream-walking`, `lucid-navigation`, `subconscious-exploration`, `dream-realm-orchestration`
 
 ### Connecting the Agent
