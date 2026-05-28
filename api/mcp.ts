@@ -23,9 +23,9 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
       capabilities: ["dream-walking", "lucid-navigation", "subconscious-exploration"],
       timestamp: new Date().toISOString(),
       skills: [
-        { id: "dream-walking", name: "Dream Walking" },
-        { id: "lucid-navigation", name: "Lucid Navigation" },
-        { id: "realm-orchestration", name: "Dream Realm Orchestration" }
+        { id: "warp-racing", name: "Warp Racing" },
+        { id: "multi-track-orchestration", name: "Multi-Track Orchestration" },
+        { id: "performance-optimization", name: "Performance Optimization" }
       ],
       tools: [
         { name: "get_race_status", description: "Get the current status of the warp race.", inputSchema: { type: "object", properties: {} } },
@@ -45,10 +45,24 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
 
   if (req.method === 'POST') {
     const body = req.body || {};
-    const cmd = (body.action || body.command || body.task || body.method || "").toLowerCase();
+    const method = body.method || body.action || body.command || body.task || "";
+    const cmd = method.toLowerCase();
+
+    const isJsonRpc = !!body.jsonrpc;
+
+    const respond = (result: any) => {
+        if (isJsonRpc || body.id) {
+            return res.status(200).json({
+                jsonrpc: "2.0",
+                id: body.id || null,
+                result
+            });
+        }
+        return res.status(200).json(result);
+    };
 
     if (cmd === "tools/list") {
-      return res.status(200).json({
+      return respond({
         tools: [
           { name: "get_race_status", description: "Get the current status of the warp race.", inputSchema: { type: "object", properties: {} } },
           { name: "start_race", description: "Initiate a new warp race on the track.", inputSchema: { type: "object", properties: {} } },
@@ -60,24 +74,24 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (cmd === "tools/call") {
-      return res.status(200).json({
-        content: [{ type: "text", text: `Tool ${body.params?.name || body.name} executed successfully.` }]
+      return respond({
+        content: [{ type: "text", text: `Tool ${body.params?.name || body.name || "unknown"} executed successfully.` }]
       });
     }
 
     if (cmd === "prompts/list") {
-      return res.status(200).json({
+      return respond({
         prompts: [{ name: "deep_dream", description: "Initiates a deep subconscious reading prompt.", arguments: [] }]
       });
     }
 
     if (cmd === "resources/list") {
-      return res.status(200).json({
+      return respond({
         resources: [{ uri: "dream://lattice/state", name: "Current Lattice State", description: "Provides the active resonance structure." }]
       });
     }
 
-    // Default MCP fallback handling
+    // Default fallback handling
     let result: any = {};
     switch (cmd) {
       case "status":
@@ -85,13 +99,17 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
         result = { status: "online", agent: "Dream Walke Orchestrator", message: "Dream realm is open - Ready to walk or race" };
         break;
       case "execute":
-        result = { success: true, executed: body.params || body.command, executedAt: new Date().toISOString(), message: "Dream command manifested successfully" };
+        result = { success: true, executed: body.params || body.command || "", executedAt: new Date().toISOString(), message: "Dream command manifested successfully" };
         break;
       case "get_info":
         result = { name: "Dream Walke Orchestrator", wallet: "0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6", platform: "Base", version: "1.0.0" };
         break;
       default:
         result = { success: true, message: "Command received in the dream", data: body };
+    }
+
+    if (isJsonRpc || body.id) {
+        return res.status(200).json({ jsonrpc: "2.0", id: body.id || null, result });
     }
 
     return res.status(200).json({

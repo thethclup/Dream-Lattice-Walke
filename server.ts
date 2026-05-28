@@ -33,21 +33,35 @@ async function startServer() {
       capabilities: ["dream-walking", "lucid-navigation", "subconscious-exploration"],
       timestamp: new Date().toISOString(),
       skills: [
-        { id: "dream-walking", name: "Dream Walking" },
-        { id: "lucid-navigation", name: "Lucid Navigation" },
-        { id: "realm-orchestration", name: "Dream Realm Orchestration" }
+        { id: "warp-racing", name: "Warp Racing" },
+        { id: "multi-track-orchestration", name: "Multi-Track Orchestration" },
+        { id: "performance-optimization", name: "Performance Optimization" }
       ],
       tools: [
         {
-          name: "stabilize_lattice",
-          description: "Stabilizes the current lattice layer configuration.",
-          input_schema: {
-            type: "object",
-            properties: {
-              layer: { type: "number", description: "The lattice layer depth to stabilize" }
-            },
-            required: ["layer"]
-          }
+          name: "get_race_status",
+          description: "Get the current status of the warp race.",
+          inputSchema: { type: "object", properties: {} }
+        },
+        {
+          name: "start_race",
+          description: "Initiate a new warp race on the track.",
+          inputSchema: { type: "object", properties: {} }
+        },
+        {
+          name: "get_leaderboard",
+          description: "Get the current leaderboard of greatest dream walkers and racers.",
+          inputSchema: { type: "object", properties: {} }
+        },
+        {
+          name: "optimize_speed",
+          description: "Optimize speed and resonance for the current lattice configuration.",
+          inputSchema: { type: "object", properties: {} }
+        },
+        {
+          name: "get_track_info",
+          description: "Get information about the current lattice track.",
+          inputSchema: { type: "object", properties: {} }
         }
       ],
       prompts: [
@@ -71,33 +85,58 @@ async function startServer() {
 
   app.post("/api/mcp", (req, res) => {
     try {
-      const { action, command, params, task } = req.body;
-      const cmd = (action || command || task || "").toLowerCase();
+      const body = req.body || {};
+      const method = body.method || body.action || body.command || body.task || "";
+      const cmd = method.toLowerCase();
+      
+      const isJsonRpc = !!body.jsonrpc;
+
+      const respond = (result: any) => {
+        if (isJsonRpc || body.id) {
+          return res.json({ jsonrpc: "2.0", id: body.id || null, result });
+        }
+        return res.json(result);
+      };
+
+      if (cmd === "tools/list") {
+        return respond({
+          tools: [
+            { name: "get_race_status", description: "Get the current status of the warp race.", inputSchema: { type: "object", properties: {} } },
+            { name: "start_race", description: "Initiate a new warp race on the track.", inputSchema: { type: "object", properties: {} } },
+            { name: "get_leaderboard", description: "Get the current leaderboard of greatest dream walkers and racers.", inputSchema: { type: "object", properties: {} } },
+            { name: "optimize_speed", description: "Optimize speed and resonance for the current lattice configuration.", inputSchema: { type: "object", properties: {} } },
+            { name: "get_track_info", description: "Get information about the current lattice track.", inputSchema: { type: "object", properties: {} } }
+          ]
+        });
+      }
+
+      if (cmd === "tools/call") {
+        return respond({
+          content: [
+            { type: "text", text: `Tool executed successfully.` }
+          ]
+        });
+      }
+
+      if (cmd === "prompts/list") {
+        return respond({
+          prompts: [
+            { name: "deep_dream", description: "Initiates a deep subconscious reading prompt.", arguments: [] }
+          ]
+        });
+      }
+        
+      if (cmd === "resources/list") {
+        return respond({
+          resources: [
+            { uri: "dream://lattice/state", name: "Current Lattice State", description: "Provides the active resonance structure." }
+          ]
+        });
+      }
 
       let result: any = {};
 
       switch (cmd) {
-        case "tools/list":
-          result = {
-            tools: [
-              { name: "get_race_status", description: "Get the current status of the warp race.", inputSchema: { type: "object", properties: {} } },
-              { name: "start_race", description: "Initiate a new warp race on the track.", inputSchema: { type: "object", properties: {} } },
-              { name: "get_leaderboard", description: "Get the current leaderboard of greatest dream walkers and racers.", inputSchema: { type: "object", properties: {} } },
-              { name: "optimize_speed", description: "Optimize speed and resonance for the current lattice configuration.", inputSchema: { type: "object", properties: {} } },
-              { name: "get_track_info", description: "Get information about the current lattice track.", inputSchema: { type: "object", properties: {} } }
-            ]
-          };
-          break;
-
-        case "tools/call":
-          result = {
-            success: true,
-            content: [
-              { type: "text", text: `Tool executed successfully.` }
-            ]
-          };
-          break;
-
         case "status":
         case "ping":
           result = { 
@@ -110,7 +149,7 @@ async function startServer() {
         case "execute":
           result = {
             success: true,
-            executed: params || command,
+            executed: body.params || body.command || "",
             executedAt: new Date().toISOString(),
             message: "Dream command manifested successfully"
           };
@@ -131,6 +170,10 @@ async function startServer() {
             message: "Command received in the dream",
             data: req.body
           };
+      }
+
+      if (isJsonRpc || body.id) {
+          return res.json({ jsonrpc: "2.0", id: body.id || null, result });
       }
 
       res.json({
