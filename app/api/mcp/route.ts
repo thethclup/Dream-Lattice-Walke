@@ -67,6 +67,12 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization"
+  };
+
   try {
     const body = await req.json();
     const cmd = (body.action || body.command || body.task || body.method || "").toLowerCase();
@@ -75,7 +81,7 @@ export async function POST(req: Request) {
 
     switch (cmd) {
       case "tools/list":
-        result = {
+        return NextResponse.json({
           tools: [
             { name: "get_race_status", description: "Get the current status of the warp race.", inputSchema: { type: "object", properties: {} } },
             { name: "start_race", description: "Initiate a new warp race on the track.", inputSchema: { type: "object", properties: {} } },
@@ -83,33 +89,28 @@ export async function POST(req: Request) {
             { name: "optimize_speed", description: "Optimize speed and resonance for the current lattice configuration.", inputSchema: { type: "object", properties: {} } },
             { name: "get_track_info", description: "Get information about the current lattice track.", inputSchema: { type: "object", properties: {} } }
           ]
-        };
-        break;
+        }, { headers });
       
       case "tools/call":
-        result = {
-          success: true,
+        return NextResponse.json({
           content: [
             { type: "text", text: `Tool ${body.params?.name || body.name} executed successfully.` }
           ]
-        };
-        break;
+        }, { headers });
 
       case "prompts/list":
-        result = {
+        return NextResponse.json({
           prompts: [
             { name: "deep_dream", description: "Initiates a deep subconscious reading prompt.", arguments: [] }
           ]
-        };
-        break;
+        }, { headers });
         
       case "resources/list":
-        result = {
+        return NextResponse.json({
           resources: [
             { uri: "dream://lattice/state", name: "Current Lattice State", description: "Provides the active resonance structure." }
           ]
-        };
-        break;
+        }, { headers });
 
       case "status":
       case "ping":
